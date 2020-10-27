@@ -1,25 +1,28 @@
-async function main(){
-    /**
-     * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
-     * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
-     */
-    //const uri = process.env.conString;
-    const uri = "mongodb+srv://webUser1:qwer5678.@clusterio.3ywev.mongodb.net/<dbname>?retryWrites=true&w=majority";
 
-    const client = new MongoClient(uri);
+var MongoClient = require('mongodb').MongoClient;
+var url = process.env.conString;
+const express = require("express");
+const app = express();
+var port = process.env.PORT || 80;
+const router = express.Router();
 
-    try {
-        // Connect to the MongoDB cluster
-        await client.connect();
+app.use("/", router);
 
-        // Make the appropriate DB calls
-        await  listDatabases(client);
+app.listen(port, function() {
+  console.log("Server is running on Port: " + port);
+});
 
-    } catch (e) {
-        console.error(e);
-    } finally {
-        await client.close();
-    }
-}
-
-main().catch(console.error);
+app.get('/word/:word', function (req, res) {
+  let gelen = req.params['word'];
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("dict");
+    var query = { word: new RegExp(req.params.data) };
+    dbo.collection("wordList").find(query).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+      res.send(result);
+      db.close();
+    });
+  });
+})
