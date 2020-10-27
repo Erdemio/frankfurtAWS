@@ -1,6 +1,6 @@
 
 var MongoClient = require('mongodb').MongoClient;
-var url = process.env.conString;
+var url = process.env.LINK;
 const express = require("express");
 const app = express();
 var port = process.env.PORT || 80;
