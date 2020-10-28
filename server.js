@@ -20,8 +20,8 @@ app.get('/word/:word', function (req, res) {
     var query = { word: new RegExp('^' + reqWord) };
     dbo.collection("wordList").find(query).toArray(function(err, result) {
       if (err) throw err;
-      console.log(result);
-      res.send(result);
+      //console.log(result);
+      res.json(result);
       db.close();
     });
   });
