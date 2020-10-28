@@ -17,7 +17,7 @@ app.get('/word/:word', function (req, res) {
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("dict");//database name
-    var query = '{word:/^'+reqWord+'/}';
+    var query = { word: new RegExp('^' + reqWord) };
     dbo.collection("wordList").find(query).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
