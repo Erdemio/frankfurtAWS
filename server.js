@@ -13,12 +13,11 @@ app.listen(port, function() {
 });
 
 app.get('/word/:word', function (req, res) {
-  let gelen = req.params['word'];
+  let reqWord = req.params['word'];
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("dict");//database name
-    //console.log(new RegExp(req.params.data));
-    var query = { word: new RegExp(gelen) };
+    var query = '{word:/^'+reqWord+'/}';
     dbo.collection("wordList").find(query).toArray(function(err, result) {
       if (err) throw err;
       console.log(result);
