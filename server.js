@@ -15,6 +15,12 @@ app.listen(port, function() {
 
 app.get('/word/:word', cors(), function (req, res) {
   let reqWord = req.params['word'];
+
+  if(reqWord==null || reqWord=="")
+  {
+
+  }
+
   MongoClient.connect(url, function(err, db) {
     if (err) throw err;
     var dbo = db.db("dict");//database name
@@ -26,4 +32,28 @@ app.get('/word/:word', cors(), function (req, res) {
       db.close();
     });
   });
+})
+
+app.get('/insert/:key/:word/:meaning/:synonym/:antonym/:otherForms', cors(), function (req, res) {
+  if(req.params['key']=="777eee3"){
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("dict");
+      var data = {
+                "word": req.params['word'],
+                "meaning": req.params['meaning'],
+                "synonym": req.params['synonym'],
+                "antonym": req.params['antonym'],
+                "otherForms": req.params['otherForms']
+        };
+      dbo.collection("wordList").insertOne(data, function(err, res) {
+        if (err) throw err;
+        console.log("done.");
+        res.send("done.");
+        db.close();
+      });
+    });
+  }else{
+    res.send("error.");
+  }
 })
