@@ -46,7 +46,7 @@ app.get('/insert/:key/:word/:meaning/:synonym/:antonym/:otherForms', cors(), fun
                 "antonym": req.params['antonym'],
                 "otherForms": req.params['otherForms']
         };
-      dbo.collection("wordList").insertOne(data, function(err, res) {
+      dbo.collection("wordList").insertOne(data, function(err, result) {
         if (err) throw err;
         console.log("done.");
         res.write("done.");
