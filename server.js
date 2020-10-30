@@ -49,11 +49,11 @@ app.get('/insert/:key/:word/:meaning/:synonym/:antonym/:otherForms', cors(), fun
       dbo.collection("wordList").insertOne(data, function(err, result) {
         if (err) throw err;
         console.log("done.");
-        res.write("done.");
+        res.send("done.");
         db.close();
       });
     });
   }else{
-    res.write("error.");
+    res.send("error.");
   }
 })
