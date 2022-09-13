@@ -1,3 +1,3 @@
-Hi
+Hi!
 
-I am an api.
+I am a quick dictionary!
